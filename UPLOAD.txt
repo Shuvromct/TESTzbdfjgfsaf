@@ -1,0 +1,101 @@
+DIU Campus Legacy 25 — update 3
+===============================
+
+This replaces the earlier update-3 package. If you already uploaded that
+one, send these over the top; if you have not, this is the only one you
+need. It also contains the seven-file update and the table fixes.
+
+TWO STEPS, IN THIS ORDER.
+
+STEP 1 — NEON
+    migrations/update-3.sql
+
+Run it even if you ran it on Sunday. The file has changed since: it now
+also allows the Chairman's tracker into the recycle bin. It is written to
+be run again safely — nothing is dropped, nothing is lost, and the NOTICE
+lines about things already existing are expected.
+
+STEP 2 — GITHUB, ALL TOGETHER
+Every file in this zip, into the folder it came from. public/shell.html is
+new, and next.config.mjs points the home page at it: send both or the site
+answers 404 at "/".
+
+
+THE SEVEN THINGS YOU REPORTED
+-----------------------------
+
+1. A refused save no longer empties the form.
+   The dialog used `method="dialog"`, which closes the moment the button is
+   pressed — the handler then ran against a form that no longer existed. So
+   a duplicate ID, a verifier who is also the owner, any refusal at all,
+   cost you everything you had typed. The save now runs first; the dialog
+   closes only once the server has agreed, and a refusal is shown inside
+   the form with every field as you left it. This was true of every form in
+   the application, not only new tasks.
+
+2. Cancel works with a required field empty.
+   Cancel was a submit button inside the form, so the browser ran its
+   "please fill out this field" check on it too and refused to close. It no
+   longer submits anything.
+
+3. A task ID can be whatever you like.
+   CL25-47, Lab-7, AB4-Wall. The only rules left: not empty, 40 characters
+   or fewer, no slash — the ID goes in the address bar, and a slash cuts it
+   in half.
+
+4. A sub-task is named after its parent, and the register stays two deep.
+   Lab-7 gets Lab-7.1, Lab-7.2, filled in for you. "+ Sub-task" no longer
+   appears on something that is already a sub-task, and the server refuses
+   a third level even if asked directly. Three levels would have fallen out
+   of every roll-up on the dashboard.
+
+   The suggested ID for a new task was also wrong: it read one character
+   out of the middle of the existing IDs, so with forty-six tasks it still
+   offered CL25-10 — which already existed, which is why Create failed and
+   then bug 1 ate the form. It now reads the trailing number and continues
+   the series.
+
+5. Category is a list.
+   The twenty-six already in the register, read from the register itself,
+   plus "Other…" which turns into a box to type in. Whatever you type is in
+   the list from then on. On the edit form too, so an existing category is
+   never silently respelled.
+
+6. Reset now takes the Chairman's tracker.
+   It was left out on the grounds that it is the original workbook rather
+   than working data. That reasoning was fine and the page never said so,
+   which is not. It goes to the recycle bin with everything else and comes
+   back if you put it back. The page now spells out what both buttons keep
+   and what they clear.
+
+7. The four lists can be added to and removed from.
+   Student teams, student-days, survey zones and departments could only be
+   edited — whatever the seed data held was all there would ever be. Each
+   now has its own New button, and Remove on every row for roles that may
+   act on other people's records. Removal goes to the recycle bin like
+   everything else. New IDs follow the series already in use: SV15 is
+   followed by SV16, TEAM-12 by TEAM-13.
+
+   A department still carrying tasks or people cannot be removed; it says
+   how many of each to move first.
+
+
+CHECKED
+-------
+  build, type check                 clean
+  these seven fixes                 29 tests
+  administration                    24
+  routing                           20
+  autosave                          23
+  sort, grouping, saved views       18
+  audit trail                        6
+  final sweep                       45
+  responsive, 12 widths             no overflow, no squeezed control,
+                                    no table without a header row
+  the phone drawer                  Sign out visible at 320, 360 and 390
+
+Worth naming among them: a duplicate ID now keeps the form and says why; a
+sub-task of a sub-task is refused by the server as well as hidden in the
+interface; a zone removed from the Zones page is in the recycle bin a
+moment later; and resetting the register takes the Chairman's tracker and
+gives it back.

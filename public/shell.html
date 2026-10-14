@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#12306b">
+<meta name="robots" content="noindex, nofollow">
+<title>DIU Campus Legacy 25 — Implementation and Monitoring</title>
+<meta name="description" content="Project DIU-CL25-2026. Task register, budget, approvals and site evidence.">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/app.css">
+<!--
+  The page the browser actually gets.
+
+  Everything on screen is drawn by /app.js from what /api/state returns, so
+  there is nothing for a framework to do here. Served as a plain file, the
+  first paint waits on 28 KB of stylesheet and 99 KB of script instead of on
+  half a megabyte of React that had an empty <div> to hydrate.
+
+  app.js and app.css are revalidated on each load rather than cached for a
+  year, so a deployment reaches a returning browser without a version in the
+  URL. Each check is a couple of hundred bytes and usually answers 304.
+-->
+</head>
+<body>
+<!-- First stop for anybody using the keyboard: past fourteen navigation
+     links, straight to the page. Invisible until it is focused. -->
+<a class="skip" href="#main">Skip to the page</a>
+<!-- Shown until app.js has the project. On a phone over 3G that is about a
+     second of otherwise blank white page. Replaced by the first render. -->
+<div id="app"><div class="booting"><span class="spin"></span>Loading the project…</div></div>
+<!-- Saving / Saved / Offline / Could not save. Outside #app so a redraw
+     never takes it away mid-save. -->
+<div class="savebar noprint" id="savebar" role="status" aria-live="polite"></div>
+<div class="toasts noprint" id="toasts"></div>
+<div class="madeby noprint">
+  Project Office · Created by <b>Md Shafikul Islam Shuvro</b>
+</div>
+<script src="/app.js" defer></script>
+</body>
+</html>
